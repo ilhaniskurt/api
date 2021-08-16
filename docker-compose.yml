@@ -5,9 +5,7 @@ services:
     build: .
     image: apiimage
     restart: always
-    volumes: 
-      - /app:/app
     ports: 
       - 8000:8000
-    command: uvicorn task:app --reload --host 0.0.0.0 --port 8000
+    command: bash -c "cd app && python -m uvicorn task:app --reload --host 0.0.0.0 --port 8000"
 
