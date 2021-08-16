@@ -3,8 +3,11 @@ services:
   app:
     container_name: api
     build: .
+    image: apiimage
     restart: always
+    volumes: 
+      - /app:/app
     ports: 
       - 8000:8000
-    command: uvicorn task:app --reload
+    command: uvicorn task:app --reload --host 0.0.0.0 --port 8000
 
