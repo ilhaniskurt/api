@@ -1,6 +1,5 @@
 import shutil
-#import patoolib
-#from zipfile import ZipFile
+from zipfile import ZipFile
 import os
 from fastapi import FastAPI, File, UploadFile
 
@@ -19,7 +18,7 @@ def check_file(file: UploadFile = File(...)):
 
   # Download the file from user
   filepath = "./files/" + file.filename
-  tmpfilepath = "./file/tmp_" + file.filename[:-4]
+  tmpdirpath = "./files/tmp_" + file.filename[:-4] + "/"
 
   with open(filepath, 'wb') as buffer:
     shutil.copyfileobj(file.file, buffer)
@@ -27,10 +26,17 @@ def check_file(file: UploadFile = File(...)):
   # .apk check
   if file.filename.lower().endswith('.apk'):
     # tmp copy
-    if not os.path.exists(tmpfilepath):
-      os.mkdir(tmpfilepath)
+    if not os.path.exists(tmpdirpath):
+      os.mkdir(tmpdirpath)
     # alter format
-    shutil.copyfile(filepath, tmpfilepath +"/" + file.filename[:-4]+".zip")
+    shutil.copyfile(filepath, tmpdirpath + file.filename)
+    os.rename(tmpdirpath + file.filename, tmpdirpath + file.filename[:-4]+".jar")
+    with ZipFile(tmpdirpath + file.filename[:-4] + ".jar", 'r') as zip_ref:
+      zip_ref.extractall(tmpdirpath)
+    if os.path.exists(tmpdirpath + "classes.dex"):
+      shutil.rmtree(tmpdirpath)
+      return {"filename":file.filename,"extension":".apk","found":"classes.dex"}
+    shutil.rmtree(tmpdirpath)
     return {"filename":file.filename,"extension":".apk"}
   return {"filename":file.filename}
 
