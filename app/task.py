@@ -11,7 +11,7 @@ def index():
 
 
 @app.post("/file")
-def check_file(file: UploadFile = File(...)):
+def file(file: UploadFile = File(...)):
   # Path variables
   filepath = "./files/" + file.filename
   tmpdirpath = "./files/tmp_" + file.filename[:-4] + "/"
