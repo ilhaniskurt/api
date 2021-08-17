@@ -39,13 +39,3 @@ def check_file(file: UploadFile = File(...)):
     shutil.rmtree(tmpdirpath)
     return {"filename":file.filename,"extension":".apk"}
   return {"filename":file.filename}
-
-
-
-
-
-
-#patoolib.extract_archive("./files/tmp_"+file.filename[:-4]+"/"+file.filename[:-4]+".rar", outdir="./files/tmp_"+file.filename[:-4])
-  # Unzip with ZipFile 
-  #with ZipFile("./files/tmp_"+file.filename[:-4]+"/"+file.filename[:-4]+".zip", 'r') as zip_ref:
-   #zip_ref.extractall("./files/tmp_"+file.filename[:-4])
