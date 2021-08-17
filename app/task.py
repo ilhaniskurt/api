@@ -6,6 +6,11 @@ from fastapi import FastAPI, File, UploadFile
 
 app = FastAPI()
 
+@app.get("/")
+def index():
+  return {"App":"task.py"}
+
+
 @app.post("/file")
 def check_file(file: UploadFile = File(...)):
   # Check Folder
