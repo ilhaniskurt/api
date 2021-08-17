@@ -29,13 +29,16 @@ def check_file(file: UploadFile = File(...)):
     if not os.path.exists(tmpdirpath):
       os.mkdir(tmpdirpath)
     # alter format
-    shutil.copyfile(filepath, tmpdirpath + file.filename)
-    os.rename(tmpdirpath + file.filename, tmpdirpath + file.filename[:-4]+".jar")
+    shutil.copyfile(filepath, tmpdirpath + file.filename[:-4]+".jar")
     with ZipFile(tmpdirpath + file.filename[:-4] + ".jar", 'r') as zip_ref:
       zip_ref.extractall(tmpdirpath)
+
+    # scan for 'classes.dex'
     if os.path.exists(tmpdirpath + "classes.dex"):
+      # remove tmp
       shutil.rmtree(tmpdirpath)
       return {"filename":file.filename,"extension":".apk","found":"classes.dex"}
+    # remove tmp
     shutil.rmtree(tmpdirpath)
     return {"filename":file.filename,"extension":".apk"}
   return {"filename":file.filename}
