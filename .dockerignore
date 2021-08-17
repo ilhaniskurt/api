@@ -1,5 +1,6 @@
-./env
-./app/__pycache__
+env/
+app/__pycache__/
 docker-compose.yml
 Dockerfile
 README.md
+files/
