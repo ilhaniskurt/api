@@ -56,7 +56,7 @@ def delete_personel(personel_id: int):
 
 @app.get("/")
 def index():
-  return {"App":"w$lf"}
+  return {"App":"test.py"}
 
 @app.get("/get-personel/{personel_id}")
 def get_personel(personel_id: int = Path(None, description="Personel ID", gt=0, le=len(personels)+1 )):
